@@ -66,9 +66,9 @@ public class ListViewScrollTracker {
      */
     public boolean detectedListViewScroll(int firstVisibleItem) {
         boolean isUpScrolling = false;
+        View view = mListView.getChildAt(0);
+        int top = (view == null) ? 0 : view.getTop();
         if (mOldFirstVisibleItem == firstVisibleItem) {
-            View view = mListView.getChildAt(0);
-            int top = (view == null) ? 0 : view.getTop();
             if (mOldTop < top) {
                 isUpScrolling = true;
             } else if (mOldTop > top) {
@@ -81,6 +81,7 @@ public class ListViewScrollTracker {
         } else if (mOldFirstVisibleItem < firstVisibleItem) {
             isUpScrolling = false;
         }
+        mOldTop = top;
         mOldFirstVisibleItem = firstVisibleItem;
         mOldIsUpScrolling = isUpScrolling;
         return isUpScrolling;

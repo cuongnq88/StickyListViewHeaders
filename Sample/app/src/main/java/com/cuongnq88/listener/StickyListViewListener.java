@@ -1,9 +1,8 @@
 package com.cuongnq88.listener;
 
-        import android.util.Log;
-        import android.widget.AbsListView;
-
-        import com.cuongnq88.Utils.ListViewScrollTracker;
+import android.util.Log;
+import android.widget.AbsListView;
+import com.cuongnq88.Utils.ListViewScrollTracker;
 
 /**
  * Created by nguyenquoccuong on 6/16/15.
@@ -23,6 +22,7 @@ public abstract class StickyListViewListener implements AbsListView.OnScrollList
      * @param mStickyHeight
      */
     public StickyListViewListener(int mStickyHeight) {
+        Log.d("CUONGNQ","mStickyHeight = " + mStickyHeight);
         this.mStickyHeight = mStickyHeight;
     }
 
@@ -46,7 +46,7 @@ public abstract class StickyListViewListener implements AbsListView.OnScrollList
             mTracker = new ListViewScrollTracker(view);
         }
         boolean isUpScrolling = mTracker.detectedListViewScroll(firstVisibleItem);
-        Log.d("CUONGNQ", "isUpScrolling = " + isUpScrolling);
+//        Log.d("CUONGNQ", "isUpScrolling = " + isUpScrolling);
         onMoved(mStickyOffset);
         int offset = mTracker.calculateIncrementalOffset(firstVisibleItem, visibleItemCount);
         if ((offset > 0 && offset > 0) || (offset < 0 && offset < mStickyHeight)) {

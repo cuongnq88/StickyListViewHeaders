@@ -9,4 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <LinearLayout
+        android:id="@+id/ll_sticky"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewSticky"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="Sticky"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:background="@android:color/holo_blue_bright"/>
+
+    </LinearLayout>
+
 </FrameLayout>
