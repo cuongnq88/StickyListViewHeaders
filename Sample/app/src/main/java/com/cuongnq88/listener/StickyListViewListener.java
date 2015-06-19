@@ -1,7 +1,8 @@
 package com.cuongnq88.listener;
 
-import android.util.Log;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+
 import com.cuongnq88.Utils.ListViewScrollTracker;
 
 /**
@@ -14,7 +15,10 @@ public abstract class StickyListViewListener implements AbsListView.OnScrollList
     private ListViewScrollTracker mTracker = null;
     private int mStickyHeight = 0;
     private int mStickyOffset = 0;
+    private int mTotalScrollDistance;
     private boolean mControlsVisible = true;
+    private boolean mIsUpScrolling;
+    private boolean mIsAnimation = true;
 
     /**
      * StickyListViewListener
@@ -22,8 +26,18 @@ public abstract class StickyListViewListener implements AbsListView.OnScrollList
      * @param mStickyHeight
      */
     public StickyListViewListener(int mStickyHeight) {
-        Log.d("CUONGNQ","mStickyHeight = " + mStickyHeight);
         this.mStickyHeight = mStickyHeight;
+    }
+
+    /**
+     * StickyListViewListener
+     *
+     * @param mStickyHeight
+     * @param mIsAnimation
+     */
+    public StickyListViewListener(int mStickyHeight, boolean mIsAnimation) {
+        this.mStickyHeight = mStickyHeight;
+        this.mIsAnimation = mIsAnimation;
     }
 
     /**
@@ -37,7 +51,11 @@ public abstract class StickyListViewListener implements AbsListView.OnScrollList
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (mIsAnimation) {
+            showStickyAnimate(view, scrollState);
+        } else {
 
+        }
     }
 
     @Override
@@ -45,12 +63,78 @@ public abstract class StickyListViewListener implements AbsListView.OnScrollList
         if (mTracker == null) {
             mTracker = new ListViewScrollTracker(view);
         }
-        boolean isUpScrolling = mTracker.detectedListViewScroll(firstVisibleItem);
-//        Log.d("CUONGNQ", "isUpScrolling = " + isUpScrolling);
+        mIsUpScrolling = mTracker.detectedListViewScroll(firstVisibleItem);
+        clipStickyOffset();
         onMoved(mStickyOffset);
         int offset = mTracker.calculateIncrementalOffset(firstVisibleItem, visibleItemCount);
-        if ((offset > 0 && offset > 0) || (offset < 0 && offset < mStickyHeight)) {
+        if ((offset > 0 && mStickyOffset > 0) || (offset < 0 && offset < mStickyHeight)) {
             mStickyOffset -= offset;
+        }
+        if (mTotalScrollDistance < 0) {
+            mTotalScrollDistance = 0;
+        } else {
+            mTotalScrollDistance -= offset;
+        }
+    }
+
+    /**
+     * clipStickyOffset
+     */
+    private void clipStickyOffset() {
+        if (mStickyOffset > mStickyHeight) {
+            mStickyOffset = mStickyHeight;
+        } else if (mStickyOffset < 0) {
+            mStickyOffset = 0;
+        }
+    }
+
+    /**
+     * setVisible
+     */
+    private void setVisible() {
+        if (mStickyOffset > 0) {
+            onShow();
+            mStickyOffset = 0;
+        }
+        mControlsVisible = true;
+    }
+
+    /**
+     * setInvisible
+     */
+    private void setInvisible() {
+        if (mStickyOffset < mStickyHeight) {
+            onHide();
+            mStickyOffset = mStickyHeight;
+        }
+        mControlsVisible = false;
+    }
+
+    /**
+     * showStickyAnimate
+     *
+     * @param view
+     * @param scrollState
+     */
+    private void showStickyAnimate(AbsListView view, int scrollState) {
+        if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+            if (mTotalScrollDistance < mStickyHeight) {
+                setVisible();
+            } else {
+                if (mControlsVisible) {
+                    if (mStickyOffset > HIDE_THRESHOLD) {
+                        setInvisible();
+                    } else {
+                        setVisible();
+                    }
+                } else {
+                    if ((mStickyHeight - mStickyOffset) > SHOW_THRESHOLD) {
+                        setVisible();
+                    } else {
+                        setInvisible();
+                    }
+                }
+            }
         }
     }
 }

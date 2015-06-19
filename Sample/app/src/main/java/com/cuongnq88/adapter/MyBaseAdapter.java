@@ -17,6 +17,9 @@ import java.util.List;
  */
 public class MyBaseAdapter extends BaseAdapter {
 
+    /**
+     * Variable
+     */
     private Context mContext;
     private List<String> mData;
 
@@ -49,12 +52,8 @@ public class MyBaseAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            Log.d("CUONGNQ","view == null");
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //read document
             view = inflater.from(mContext).inflate(R.layout.item_list_view, parent, false);
-        }else {
-            Log.d("CUONGNQ","view != null");
         }
         bindView(position, view);
         return view;

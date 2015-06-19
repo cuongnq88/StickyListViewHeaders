@@ -15,6 +15,7 @@ public class ListViewScrollTracker {
     private int mOldFirstVisibleItem = 0;
     private int mOldTop = 0;
     private boolean mOldIsUpScrolling = false;
+
     /**
      * ListViewScrollTracker
      *
@@ -68,6 +69,7 @@ public class ListViewScrollTracker {
         boolean isUpScrolling = false;
         View view = mListView.getChildAt(0);
         int top = (view == null) ? 0 : view.getTop();
+
         if (mOldFirstVisibleItem == firstVisibleItem) {
             if (mOldTop < top) {
                 isUpScrolling = true;

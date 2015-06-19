@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,7 +39,6 @@ public class MainActivity extends Activity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        Log.d("CUONGNQ", "onWindowFocusChanged");
         if (mSiStickyListViewListener == null) {
             mSiStickyListViewListener = createListenerList();
             mListView.setOnScrollListener(mSiStickyListViewListener);
@@ -82,20 +83,20 @@ public class MainActivity extends Activity {
      * @return
      */
     private StickyListViewListener createListenerList() {
-        StickyListViewListener listener = new StickyListViewListener(headerListView.getHeight()) {
+        StickyListViewListener listener = new StickyListViewListener(mTextViewSticky.getHeight(), true) {
             @Override
             public void onMoved(int distance) {
-
+                mTextViewSticky.setTranslationY(-distance);
             }
 
             @Override
             public void onShow() {
-
+                mTextViewSticky.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             }
 
             @Override
             public void onHide() {
-
+                mTextViewSticky.animate().translationY(-mTextViewSticky.getHeight()).setInterpolator(new AccelerateInterpolator(2)).start();
             }
         };
         return listener;
