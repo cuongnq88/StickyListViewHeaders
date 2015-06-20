@@ -54,7 +54,7 @@ public abstract class StickyListViewListener implements AbsListView.OnScrollList
         if (mIsAnimation) {
             showStickyAnimate(view, scrollState);
         } else {
-
+            showStickyNotAnimate(view, scrollState);
         }
     }
 
@@ -136,5 +136,40 @@ public abstract class StickyListViewListener implements AbsListView.OnScrollList
                 }
             }
         }
+    }
+
+    /**
+     * showStickyNotAnimate
+     *
+     * @param view
+     * @param scrollState
+     */
+    private void showStickyNotAnimate(AbsListView view, int scrollState) {
+        if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+            if (view.getFirstVisiblePosition() == 0) {
+                if (mIsUpScrolling && (mStickyHeight - mStickyOffset) >= mStickyHeight / 2) {
+                    mStickyOffset = 1;
+                    setVisible();
+                }
+            }
+        }
+    }
+
+    /**
+     * isAnimation
+     *
+     * @return
+     */
+    public boolean isAnimation() {
+        return mIsAnimation;
+    }
+
+    /**
+     * setIsAnimation
+     *
+     * @param isAnimation
+     */
+    public void setIsAnimation(boolean isAnimation) {
+        this.mIsAnimation = isAnimation;
     }
 }
