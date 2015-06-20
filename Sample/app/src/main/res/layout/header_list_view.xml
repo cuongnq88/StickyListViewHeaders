@@ -4,10 +4,35 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
+    <!--<View-->
+        <!--android:id="@+id/view_head_sticky"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="100dp" />-->
+
+    <RelativeLayout
         android:id="@+id/view_head_sticky"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="100dp">
+
+        <Button
+            android:id="@+id/btnMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Mode"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/textViewSticky"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Sticky"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textViewHeader"

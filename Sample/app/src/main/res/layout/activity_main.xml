@@ -9,22 +9,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:id="@+id/ll_sticky"
+    <RelativeLayout
+        android:id="@+id/rl_sticky"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:background="@android:color/holo_blue_bright"
         android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Animation"
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/textViewSticky"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="Sticky"
-            android:gravity="center"
             android:textSize="22sp"
-            android:textStyle="bold"
-            android:background="@android:color/holo_blue_bright"/>
+            android:textStyle="bold" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
